@@ -16,12 +16,12 @@ namespace DentalAppointments.Controllers
         }
 
 
-        [HttpPost("schedule")]
-        public async Task<IActionResult> ScheduledAppointmentInQueue([FromBody] Appointment appointment)
+        [HttpPost("Notification/Schedule")]
+        public async Task<IActionResult> ScheduledAppointmentNotificationInQueue([FromBody] Appointment appointment)
         {
             try
             {
-                long msgSequenceNumber = await _appointmentBusiness.ScheduleAppointment(appointment);
+                long msgSequenceNumber = await _appointmentBusiness.ScheduleAppointmentNotification(appointment);
 
                 return new OkObjectResult(new { MessageSequenceNumber = msgSequenceNumber });
             }
@@ -30,8 +30,8 @@ namespace DentalAppointments.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
-        [HttpDelete("{messageSequenceNumber:long}")]
-        public async Task<IActionResult> CancelAppointmentFromQueue([FromRoute] int messageSequenceNumber)
+        [HttpDelete("Notification/Cancel/{messageSequenceNumber:long}")]
+        public async Task<IActionResult> CancelAppointmentNotificationFromQueue([FromRoute] int messageSequenceNumber)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace DentalAppointments.Controllers
                 {
                     return new BadRequestObjectResult("Invalid value of messageSequenceNumber");
                 }
-                await _appointmentBusiness.CancelAppointment(messageSequenceNumber);
+                await _appointmentBusiness.CancelAppointmentNotification(messageSequenceNumber);
                 return new OkObjectResult("Scheduled message has been discarded.");
             }
             catch (Exception ex)

@@ -17,7 +17,7 @@ namespace DentalAppointments.Business
             _serviceBusSender = _serviceBusClient.CreateSender(_configuration.GetValue<String>("queueName"));
 
         }
-        public async Task<long> ScheduleAppointment(Appointment appointment)
+        public async Task<long> ScheduleAppointmentNotification(Appointment appointment)
         {
             //Serialize the appointment object
             String serializedContent = JsonConvert.SerializeObject(appointment);
@@ -30,7 +30,7 @@ namespace DentalAppointments.Business
             return messageSequenceNumber;
         }
 
-        public async Task CancelAppointment(long messageSequenceNumber)
+        public async Task CancelAppointmentNotification(long messageSequenceNumber)
         {
             await _serviceBusSender.CancelScheduledMessageAsync(messageSequenceNumber);
         }
