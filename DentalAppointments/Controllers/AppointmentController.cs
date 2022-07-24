@@ -9,10 +9,10 @@ namespace DentalAppointments.Controllers
     [ApiController]
     public class AppointmentController : ControllerBase
     {
-        public IAppointmentBusiness _appointmentBusiness { get; set; }
-        public AppointmentController(IAppointmentBusiness appointmentBusiness)
+        public INotificationBusiness _notificationBusiness { get; set; }
+        public AppointmentController(INotificationBusiness notificationBusiness)
         {
-            _appointmentBusiness = appointmentBusiness;
+            _notificationBusiness = notificationBusiness;
         }
 
 
@@ -21,7 +21,7 @@ namespace DentalAppointments.Controllers
         {
             try
             {
-                long msgSequenceNumber = await _appointmentBusiness.ScheduleAppointmentNotification(appointment);
+                long msgSequenceNumber = await _notificationBusiness.ScheduleAppointmentNotification(appointment);
 
                 return new OkObjectResult(new { MessageSequenceNumber = msgSequenceNumber });
             }
@@ -39,7 +39,7 @@ namespace DentalAppointments.Controllers
                 {
                     return new BadRequestObjectResult("Invalid value of messageSequenceNumber");
                 }
-                await _appointmentBusiness.CancelAppointmentNotification(messageSequenceNumber);
+                await _notificationBusiness.CancelAppointmentNotification(messageSequenceNumber);
                 return new OkObjectResult("Scheduled message has been discarded.");
             }
             catch (Exception ex)

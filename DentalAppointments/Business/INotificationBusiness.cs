@@ -2,7 +2,7 @@
 
 namespace DentalAppointments.Business
 {
-    public interface IAppointmentBusiness
+    public interface INotificationBusiness
     {
          public Task<long> ScheduleAppointmentNotification(Appointment appointment);
          public Task CancelAppointmentNotification(long id);

@@ -9,7 +9,7 @@ builder.Services.AddControllers();
 builder.Services.AddAzureClients(
     client => client.AddServiceBusClient(builder.Configuration["ServiceBusConn"])
     );
-builder.Services.AddSingleton<IAppointmentBusiness, AppointmentBusiness>();
+builder.Services.AddSingleton<INotificationBusiness, NotificationBusiness>();
 
 var app = builder.Build();
 
